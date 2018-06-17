@@ -7,12 +7,17 @@ require 'et_fake_acas_server/xml_builders/invalid_certificate_format_xml_builder
 require 'active_support/core_ext/numeric/time'
 module EtFakeAcasServer
   class Server < Sinatra::Base
+    def initialize(*)
+      super
+      self.private_key_file = ENV.fetch('ACAS_PRIVATE_KEY_FILE', File.absolute_path(File.join('..', '..', 'temp_x509', 'acas', 'privatekey.pem'), __dir__))
+      self.et_public_key_file = ENV.fetch('ET_PUBLIC_KEY_FILE', File.absolute_path(File.join('..', '..', 'temp_x509', 'et', 'publickey.cer'), __dir__))
+    end
     get '/wsdl' do
       erb :wsdl
     end
 
     post '/Lookup/ECService.svc' do
-      form = CertificateLookupForm.new(request.body.read, private_key_file: File.absolute_path(File.join('..', '..', 'temp_x509', 'acas', 'privatekey.pem'), __dir__))
+      form = CertificateLookupForm.new(request.body.read, private_key_file: private_key_file)
       request.body.rewind
       form.validate
       case form.certificate_number
@@ -28,6 +33,8 @@ module EtFakeAcasServer
     end
 
     private
+
+    attr_accessor :private_key_file, :et_public_key_file
     
     def xml_builder_for_found(form)
       data = OpenStruct.new claimant_name: 'Claimant Name',
@@ -38,19 +45,19 @@ module EtFakeAcasServer
                             message: 'Certificate found',
                             method_of_issue: 'Email',
                             certificate_file: File.absolute_path(File.join('..', 'pdfs', '76 EC (C) Certificate R000080.pdf'), __dir__)
-      FoundXmlBuilder.new(form, rsa_et_certificate_path: File.absolute_path(File.join('..', '..', 'temp_x509', 'et', 'publickey.cer'), __dir__)).builder(data)
+      FoundXmlBuilder.new(form, rsa_et_certificate_path: et_public_key_file).builder(data)
     end
 
     def xml_builder_for_no_match(form)
-      NoMatchXmlBuilder.new(form, rsa_et_certificate_path: File.absolute_path(File.join('..', '..', 'temp_x509', 'et', 'publickey.cer'), __dir__)).builder
+      NoMatchXmlBuilder.new(form, rsa_et_certificate_path: et_public_key_file).builder
     end
 
     def xml_builder_for_internal_error(form)
-      InternalErrorXmlBuilder.new(form, rsa_et_certificate_path: File.absolute_path(File.join('..', '..', 'temp_x509', 'et', 'publickey.cer'), __dir__)).builder
+      InternalErrorXmlBuilder.new(form, rsa_et_certificate_path: et_public_key_file).builder
     end
 
     def xml_builder_for_invalid_certificate_format(form)
-      InvalidCertificateFormatXmlBuilder.new(form, rsa_et_certificate_path: File.absolute_path(File.join('..', '..', 'temp_x509', 'et', 'publickey.cer'), __dir__)).builder
+      InvalidCertificateFormatXmlBuilder.new(form, rsa_et_certificate_path: et_public_key_file).builder
     end
   end
 end

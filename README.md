@@ -38,6 +38,13 @@ This has no test suite - nor is it supposed to have else we would be testing tes
 To prove it is working, use the api project (https://github.com/ministryofjustice/et_api) which uses it as part of
 its test suite.
 
+## Environment Variables
+
+The following environment variables can be changed to alter the defaults
+
+ACAS_PRIVATE_KEY_FILE
+ET_PUBLIC_KEY_FILE
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/et_fake_acas_server.
