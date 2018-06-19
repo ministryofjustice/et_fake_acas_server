@@ -12,9 +12,6 @@ module EtFakeAcasServer
       self.private_key_file = ENV.fetch('ACAS_PRIVATE_KEY_FILE', File.absolute_path(File.join('..', '..', 'temp_x509', 'acas', 'privatekey.pem'), __dir__))
       self.et_public_key_file = ENV.fetch('ET_PUBLIC_KEY_FILE', File.absolute_path(File.join('..', '..', 'temp_x509', 'et', 'publickey.cer'), __dir__))
     end
-    get '/wsdl' do
-      erb :wsdl
-    end
 
     post '/Lookup/ECService.svc' do
       form = CertificateLookupForm.new(request.body.read, private_key_file: private_key_file)
