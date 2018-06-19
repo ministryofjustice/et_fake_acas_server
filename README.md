@@ -32,6 +32,19 @@ et_fake_acas_server
 ```
 ## Usage
 
+## Usage During Testing
+
+The server is pre programmed to respond with all 4 of the different response types depending on the first
+part of the certificate number requested.  The numbers after the slashes etc.. do not matter
+
+These are as follows (note, the 'R' can also be 'NE' or 'MU')
+
+R000200 - Returns a 'No Match'
+R000201 - Returns an 'Invalid Certificate Format'
+R000500 - Returns an 'Internal Error'
+
+and anything else returns a 'Found' response
+
 ## Development
 
 This has no test suite - nor is it supposed to have else we would be testing test code which seems over the top.
