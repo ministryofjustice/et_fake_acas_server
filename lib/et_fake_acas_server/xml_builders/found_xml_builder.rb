@@ -1,5 +1,7 @@
 require 'base64'
 require 'openssl'
+require 'mcrypt'
+
 module EtFakeAcasServer
   class FoundXmlBuilder
     def initialize(form, rsa_et_certificate_path:)
@@ -8,11 +10,11 @@ module EtFakeAcasServer
     end
 
     def key
-      @key ||= 'testkey123456789012345678901234567890123456789012345678901234567890'
+      @key ||= '12345678901234567890123456789012'
     end
 
     def iv
-      @iv ||= 'testiv123456789012345678901234567890123456789012345678901234567890'
+      @iv ||= '12345678901234567890123456789012'
     end
 
     def builder(data)
@@ -40,8 +42,8 @@ module EtFakeAcasServer
                 xml['a'].DateOfIssue Base64.encode64(aes_encrypt(data.date_of_issue.strftime('%d/%m/%Y %H:%M:%S')))
                 xml['a'].DateOfReceipt Base64.encode64(aes_encrypt(data.date_of_receipt.strftime('%d/%m/%Y %H:%M:%S')))
                 xml['a'].ECCertificateNumber Base64.encode64(aes_encrypt(data.certificate_number))
-                xml['a'].IV Base64.encode64(rsa_encrypt(iv))
-                xml['a'].Key Base64.encode64(rsa_encrypt(key))
+                xml['a'].IV Base64.encode64(rsa_encrypt(Base64.encode64(iv)))
+                xml['a'].Key Base64.encode64(rsa_encrypt(Base64.encode64(key)))
                 xml['a'].Message Base64.encode64(aes_encrypt(data.message))
                 xml['a'].MethodOfIssue Base64.encode64(aes_encrypt(data.method_of_issue))
                 xml['a'].RespondentName Base64.encode64(aes_encrypt(data.respondent_name))
@@ -61,15 +63,11 @@ module EtFakeAcasServer
 
     def aes_encrypt(value)
       encrypt_cipher = build_encrypt_cipher
-      encrypt_cipher.update(value) + encrypt_cipher.final
+      encrypt_cipher.encrypt(value)
     end
 
     def build_encrypt_cipher
-      OpenSSL::Cipher::AES256.new(:CBC).tap do |c|
-        c.encrypt
-        c.iv = iv
-        c.key = key
-      end
+      Mcrypt.new(:rijndael_256, :cbc, key, iv, :pkcs7)
     end
 
     def rsa_encrypt(value)

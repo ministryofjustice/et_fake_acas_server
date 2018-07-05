@@ -4,6 +4,7 @@ PATH
     et_fake_acas_server (0.1.0)
       activesupport (~> 5.2)
       nokogiri (~> 1.8, >= 1.8.2)
+      ruby-mcrypt (~> 0.2)
       sinatra (~> 2.0, >= 2.0.3)
 
 GEM
@@ -20,12 +21,13 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     mustermann (1.0.2)
-    nokogiri (1.8.2)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     rack (2.0.5)
     rack-protection (2.0.3)
       rack
     rake (10.5.0)
+    ruby-mcrypt (0.2.0)
     sinatra (2.0.3)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -45,4 +47,4 @@ DEPENDENCIES
   rake (~> 10.0)
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

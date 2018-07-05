@@ -22,7 +22,7 @@ module EtFakeAcasServer
     def parsed_values
       @parsed_values ||= begin
         doc = Nokogiri::XML(xml)
-        doc.xpath('//env:Envelope/env:Body/tns:GetECCertificate').children.inject({}) do |acc, child|
+        doc.xpath('//env:Envelope/env:Body/tns:GetECCertificate/tns:request').children.inject({}) do |acc, child|
           decoded = Base64.decode64(child.text)
           decrypted = private_key.private_decrypt(decoded, OpenSSL::PKey::RSA::PKCS1_OAEP_PADDING)
           acc[child.name.underscore.to_sym] = decrypted

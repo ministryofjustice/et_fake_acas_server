@@ -8,11 +8,11 @@ module EtFakeAcasServer
     end
 
     def key
-      @key ||= 'testkey123456789012345678901234567890123456789012345678901234567890'
+      @key ||= '12345678901234567890123456789012'
     end
 
     def iv
-      @iv ||= 'testiv123456789012345678901234567890123456789012345678901234567890'
+      @iv ||= '12345678901234567890123456789012'
     end
 
     def builder
@@ -35,8 +35,8 @@ module EtFakeAcasServer
             xml.GetECCertificateResponse(xmlns: 'https://ec.acas.org.uk/lookup/') do
               xml.GetECCertificateResult('xmlns:a': 'http://schemas.datacontract.org/2004/07/Acas.CertificateLookup.EcLookupService', 'xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance') do
                 xml['a'].CurrentDateTime Base64.encode64(aes_encrypt(Time.now.strftime('%d/%m/%Y %H:%M:%S')))
-                xml['a'].IV Base64.encode64(rsa_encrypt(iv))
-                xml['a'].Key Base64.encode64(rsa_encrypt(key))
+                xml['a'].IV Base64.encode64(rsa_encrypt(Base64.encode64(iv)))
+                xml['a'].Key Base64.encode64(rsa_encrypt(Base64.encode64(key)))
                 xml['a'].Message Base64.encode64(aes_encrypt('Certificate not found'))
                 xml['a'].ResponseCode Base64.encode64(aes_encrypt('200'))
                 xml['a'].ServiceVersion Base64.encode64(aes_encrypt('1.0'))
@@ -54,15 +54,11 @@ module EtFakeAcasServer
 
     def aes_encrypt(value)
       encrypt_cipher = build_encrypt_cipher
-      encrypt_cipher.update(value) + encrypt_cipher.final
+      encrypt_cipher.encrypt(value)
     end
 
     def build_encrypt_cipher
-      OpenSSL::Cipher::AES256.new(:CBC).tap do |c|
-        c.encrypt
-        c.iv = iv
-        c.key = key
-      end
+      Mcrypt.new(:rijndael_256, :cbc, key, iv, :pkcs7)
     end
 
     def rsa_encrypt(value)
