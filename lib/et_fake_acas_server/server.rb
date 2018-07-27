@@ -39,7 +39,7 @@ module EtFakeAcasServer
                             date_of_issue: Time.parse('1 December 2017 12:00:00'),
                             date_of_receipt: Time.parse('1 January 2017 12:00:00'),
                             certificate_number: form.certificate_number,
-                            message: 'Certificate found',
+                            message: 'CertificateFound',
                             method_of_issue: 'Email',
                             certificate_file: File.absolute_path(File.join('..', 'pdfs', '76 EC (C) Certificate R000080.pdf'), __dir__)
       FoundXmlBuilder.new(form, rsa_et_certificate_path: et_public_key_file).builder(data)
