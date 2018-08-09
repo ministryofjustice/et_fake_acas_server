@@ -63,7 +63,7 @@ module EtFakeAcasServer
 
     def aes_encrypt(value)
       encrypt_cipher = build_encrypt_cipher
-      encrypt_cipher.encrypt(value)
+      encrypt_cipher.encrypt(String.new(value, encoding: 'ascii-8bit'))
     end
 
     def build_encrypt_cipher

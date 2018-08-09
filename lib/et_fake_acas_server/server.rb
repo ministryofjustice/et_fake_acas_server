@@ -32,10 +32,10 @@ module EtFakeAcasServer
     private
 
     attr_accessor :private_key_file, :et_public_key_file
-    
+
     def xml_builder_for_found(form)
-      data = OpenStruct.new claimant_name: 'Claimant Name',
-                            respondent_name: 'Respondent Name',
+      data = OpenStruct.new claimant_name: 'Claimant’s Name',
+                            respondent_name: 'Respondent’s Name',
                             date_of_issue: Time.parse('1 December 2017 12:00:00'),
                             date_of_receipt: Time.parse('1 January 2017 12:00:00'),
                             certificate_number: form.certificate_number,
