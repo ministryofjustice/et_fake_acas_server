@@ -3,4 +3,4 @@
 require 'puma'
 puma = Gem.bin_path('puma', 'puma')
 config_path = File.absolute_path('../lib/config.ru', __dir__)
-exec puma, *(ARGV + [rackup_file])
+exec puma, *(ARGV + [config_path])
