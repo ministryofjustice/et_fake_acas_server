@@ -1,4 +1,6 @@
-#/bin/bash
-PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-cd "${PARENT_PATH}/../lib"
-rackup "$@"
+#!/usr/bin/env ruby
+
+require 'rack'
+rackup = Gem.bin_path('rack', 'rackup')
+
+exec rackup, *ARGV
