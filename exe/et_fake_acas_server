@@ -2,5 +2,5 @@
 
 require 'rack'
 rackup = Gem.bin_path('rack', 'rackup')
-
-exec rackup, *ARGV
+config_path = File.absolute_path('../lib/config.ru', __dir__)
+exec rackup, config_path, *ARGV
