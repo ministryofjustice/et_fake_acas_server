@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'rack'
-rackup = Gem.bin_path('rack', 'rackup')
+require 'puma'
+puma = Gem.bin_path('puma', 'puma')
 config_path = File.absolute_path('../lib/config.ru', __dir__)
-exec rackup, config_path, *ARGV
+exec puma, *(ARGV + [rackup_file])
