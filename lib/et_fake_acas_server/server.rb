@@ -1,16 +1,26 @@
 require 'sinatra/base'
+require 'sinatra/custom_logger'
+require 'logger'
 require 'et_fake_acas_server/forms/certificate_lookup_form'
 require 'et_fake_acas_server/xml_builders/found_xml_builder'
 require 'et_fake_acas_server/xml_builders/no_match_xml_builder'
 require 'et_fake_acas_server/xml_builders/internal_error_xml_builder'
 require 'et_fake_acas_server/xml_builders/invalid_certificate_format_xml_builder'
 require 'active_support/core_ext/numeric/time'
+
+
 module EtFakeAcasServer
   class Server < Sinatra::Base
     def initialize(*)
       super
       self.private_key_file = ENV.fetch('ACAS_PRIVATE_KEY_FILE', File.absolute_path(File.join('..', '..', 'temp_x509', 'acas', 'privatekey.pem'), __dir__))
       self.et_public_key_file = ENV.fetch('ET_PUBLIC_KEY_FILE', File.absolute_path(File.join('..', '..', 'temp_x509', 'et', 'publickey.cer'), __dir__))
+    end
+
+    configure :development, :production do
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::DEBUG
+      set :logger, logger
     end
 
     post '/Lookup/ECService.svc' do
