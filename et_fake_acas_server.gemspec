@@ -36,6 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sinatra-contrib', '~> 2.0'
   spec.add_dependency 'sinatra', '~> 2.0', '>= 2.0.3'
   spec.add_dependency 'nokogiri', '~> 1.8', '>= 1.8.2'
-  spec.add_dependency 'activesupport', '~> 5.2'
+  spec.add_dependency 'activesupport', '>= 5.2', '< 7.0'
   spec.add_dependency 'ruby-mcrypt', '~> 0.2'
 end
