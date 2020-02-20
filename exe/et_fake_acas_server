@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'puma'
-puma = Gem.bin_path('puma', 'puma')
+require 'iodine'
+iodine = Gem.bin_path('iodine', 'iodine')
 config_path = File.absolute_path('../lib/config.ru', __dir__)
-exec puma, *(ARGV + [config_path])
+exec iodine, *(ARGV + [config_path])
