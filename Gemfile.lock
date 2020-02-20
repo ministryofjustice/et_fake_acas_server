@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    et_fake_acas_server (0.1.8)
+    et_fake_acas_server (0.1.9)
       activesupport (>= 5.2)
+      iodine (~> 0.7)
       nokogiri (~> 1.8, >= 1.8.2)
-      puma (~> 4.1)
       ruby-mcrypt (~> 0.2)
       sinatra (~> 2.0, >= 2.0.3)
       sinatra-contrib (~> 2.0)
@@ -12,47 +12,47 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.0.0)
+    activesupport (6.0.2.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-      zeitwerk (~> 2.1, >= 2.1.8)
-    backports (3.15.0)
-    concurrent-ruby (1.1.5)
-    i18n (1.6.0)
+      zeitwerk (~> 2.2)
+    backports (3.16.1)
+    concurrent-ruby (1.1.6)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
+    iodine (0.7.38)
     mini_portile2 (2.4.0)
-    minitest (5.11.3)
-    multi_json (1.13.1)
-    mustermann (1.0.3)
-    nio4r (2.5.1)
-    nokogiri (1.10.4)
+    minitest (5.14.0)
+    multi_json (1.14.1)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
-    puma (4.1.1)
-      nio4r (~> 2.0)
-    rack (2.0.7)
-    rack-protection (2.0.7)
+    rack (2.2.2)
+    rack-protection (2.0.8.1)
       rack
-    rake (10.5.0)
+    rake (13.0.1)
     ruby-mcrypt (0.2.0)
-    sinatra (2.0.7)
+    ruby2_keywords (0.0.2)
+    sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
-      rack-protection (= 2.0.7)
+      rack-protection (= 2.0.8.1)
       tilt (~> 2.0)
-    sinatra-contrib (2.0.7)
+    sinatra-contrib (2.0.8.1)
       backports (>= 2.8.2)
       multi_json
       mustermann (~> 1.0)
-      rack-protection (= 2.0.7)
-      sinatra (= 2.0.7)
+      rack-protection (= 2.0.8.1)
+      sinatra (= 2.0.8.1)
       tilt (~> 2.0)
     thread_safe (0.3.6)
-    tilt (2.0.9)
-    tzinfo (1.2.5)
+    tilt (2.0.10)
+    tzinfo (1.2.6)
       thread_safe (~> 0.1)
-    zeitwerk (2.1.10)
+    zeitwerk (2.2.2)
 
 PLATFORMS
   ruby
@@ -60,7 +60,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.16)
   et_fake_acas_server!
-  rake (~> 10.0)
+  rake (~> 13.0)
 
 BUNDLED WITH
    1.17.3
